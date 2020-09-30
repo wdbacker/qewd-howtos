@@ -19,6 +19,7 @@ For Apache, first make sure you enabled the following httpd modules:
 LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+LoadModule rewrite_module modules/mod_rewrite.so
 ```
 
 In your (virtual host) config, you need these settings:
@@ -32,8 +33,9 @@ In your (virtual host) config, you need these settings:
   ErrorLog logs/my-qewd-server_error.log
   CustomLog logs/my-qewd-server_access.log combined
 	
+  # enable the runtime rewriting engine
   RewriteEngine on
-  # when the socket tries transport mode polling, pass it on with http protocol
+  # when the socket.io client checks transport mode polling, pass it on over http protocol
   RewriteCond %{QUERY_STRING} transport=polling
   # in that case, rewrite the request url
   RewriteRule /qewd/socket.io/(.*)$ http://192.168.100.27:8090/socket.io/$1 [P]
