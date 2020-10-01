@@ -1,16 +1,44 @@
 # Installing and running QEWD.js on a public website using a reverse proxy setup
 
+Putting your QEWD.js server behind a reverse proxy is recommended because your (public) Apache or Nginx server allows you to control and secure your server much better when you expose it on the internet.
+
 ## The setup
 
 In this example setup, we assume:
 - your (public) hostname is `my-qewd-server.com`
-- your QEWD-Up server is proxied on the `/qewd` path (assuming you are running multiple instances like e.g. an orchestrator instance)
+- your QEWD-Up server is proxied on the `/qewd` path/location (assuming you are running multiple instances like e.g. an orchestrator instance)
 - your QEWD.js server url then becomes: `http://my-qewd-server.com/qewd`
 - your internal QEWD.js server ip (reachable from your public webserver) is running on host 192.168.100.27 and port 8090
 
 In this setting, your public webserver acts as a reverse proxy for your QEWD.js server.
 
-## Reverse proxy setup for Apache and Nginx
+## Step 1: setup your QEWD.js server for use behind your reverse proxy server
+
+For websocket requests on a proxied path/location to work correctly on your QEWD.js server back-end, you need to use the `webSockets.io_paths` option inside your `config.json` file in a QEWD-Up setup:
+
+```javascript
+{
+  "qewd": {
+    "serverName": "My QEWD-Up server",
+    "poolSize": 2,
+    "port": 8090,
+    "database": {
+      "type": "dbx",
+      "params": {
+        ...
+      }
+    },
+    "webSockets": {
+      "io_paths": ["/qewd"]
+    }
+  }
+}
+```
+You can specify in this parameter your proxy path(s)/location(s) (there can be more than one in case you'd use different proxy servers with a different path/location to the same QEWD.js server).
+
+In case you reverse proxy your QEWD.js server on the root domain level (e.g. at `http://my-qewd-server.com` without a `/qewd` path/location), the `webSockets.io_paths` parameter is not needed.
+
+## Step 2: reverse proxy setup for Apache and Nginx
 
 ### Apache (version 2.4 and higher)
 
@@ -102,8 +130,7 @@ server {
   }
 }
 ```
-
-## A basic html single page app using qewd-client.js
+## Example settings for a basic html single page app using qewd-client.js
 
 Applying this proxy setup to the basic example that comes with qewd-client:
 ```html
@@ -144,7 +171,9 @@ Applying this proxy setup to the basic example that comes with qewd-client:
           // (it will fall back to polling mode if the url is not passed in)
           url: 'http://my-qewd-server.com/qewd',
           // pass the io_path to the WebSocket
-          io_path: '/qewd'
+          io_path: '/qewd',
+          // optional: control the transport mode(s) the websocket will use
+          io_transports: [ 'polling', 'websocket' ]
         });
 
       });      
@@ -154,9 +183,9 @@ Applying this proxy setup to the basic example that comes with qewd-client:
   </body>
 </html>
 ```
-## A Vue.js 3.x app using qewd-client.js
+## Example settings for a Vue.js 3.x app using qewd-client.js
 
-Applying this proxy setup to a Vue.js hello-world app, change the `start()` method call inside the `App`'s component `created()` method:
+Applying this proxy setup to a [Vue.js 3.x hello-world app](https://github.com/wdbacker/vue3-qewd-hello-world), change the `start()` method call inside the `App`'s component `created()` method:
 ```javascript
 this.$qewd.start({
   application: 'hello-world',
@@ -164,7 +193,9 @@ this.$qewd.start({
   //url: 'http://localhost:8090'
   // pass in the url of the external QEWD.js server
   url: 'http://my-qewd-server.com/qewd',
-  // paas the io_path to the WebSocket
-  io_path: '/qewd'
+  // pass the io_path to the WebSocket
+  io_path: '/qewd',
+  // optional: control the transport mode(s) the websocket will use
+  io_transports: [ 'polling', 'websocket' ]
 })
 ```
