@@ -30,11 +30,11 @@ At this point, your development environment is completely ready for building Vue
   ```
 - install all project dependencies from npm using:
   ```
-  C:\GitHub>npm install
+  C:\GitHub\vue-realworld-example-app>npm install
   ```
 - start the Node.js development server:
   ```
-  C:\GitHub>npm run serve
+  C:\GitHub\vue-realworld-example-app>npm run serve
   ...
 
   App running at:
