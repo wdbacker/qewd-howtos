@@ -75,8 +75,4 @@ At this point, your development environment is completely ready for building Vue
   ```
 - save & run your app again from the debug tab: it should run now on your own QEWD.js REST back-end!
 
-## Adapting the app to use WebSockets
-
-The same app can also act as an interactive app version (using WebSockets to the QEWD.js back-end)
-
-TODO
+There is also an [interactive version of this app](VueRealWorldConduitWS.md) using a WebSocket to the same QEWD-Up back-end, which is also [documented](VueRealWorldConduitWS.md).
