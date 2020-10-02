@@ -65,7 +65,7 @@ At this point, your development environment is completely ready for building Vue
 - in VSCode, go to the debug tab and run the Vue.js app (you'll need to choose/create a launch config of type `Chrome: Launch`)
 - the app will open in Chrome and show the latest articles from the public demo back-end from RealWorld
 
-## Change the app to use the QEWD.js REST back-end
+## Change the app to use a QEWD-Up/QEWD.js REST back-end
 
 - open the `src/common/config.js` file and change the `API_URL` (adjust API_URL to your local QEWD.js qewd-conduit server ip address):
   ```javascript
@@ -75,6 +75,6 @@ At this point, your development environment is completely ready for building Vue
   ```
 - save & run your app again from the debug tab: it should run now on your own QEWD.js REST back-end!
 
-## Run this same app on QEWD-Up using WebSockets
+## Run this same app on a QEWD-Up/QEWD.js WebSockets back-end
 
 There is also an [interactive version of this app](VueRealWorldConduitWS.md) running on the same QEWD-Up back-end using WebSockets.

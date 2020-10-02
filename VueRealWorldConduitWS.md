@@ -2,7 +2,7 @@
 
 This is the interactive app version of the [Vue RealWorld example app using a QEWD.js REST back-end](VueRealWorldConduit.md), the app is just a fork from the example at [RealWorld](https://github.com/gothinkster/realworld#frontends). A ready-to-run version of this WebSocket version is available from [this repository](https://github.com/wdbacker/vue-realworld-example-app). A summary of changes is described below.
 
-## Adapting the app to use a QEWD-Up WebSockets back-end
+## Adapting the app to use a QEWD-Up/QEWD.js WebSockets back-end
 
 The same app can also act as an interactive app version (using WebSockets to the QEWD.js back-end)
 
@@ -234,6 +234,6 @@ The same app can also act as an interactive app version (using WebSockets to the
   };
 
   ```
-These files are the only ones you need to change to make the app work with QEWD-Up WebSockets. All other source files in the Vue.js app stay untouched.
+These files are the only ones you need to change to make the app work with QEWD-Up/QEWD.js WebSockets. All other source files in the Vue.js app stay untouched.
 
 *** Note that the complete app functionality and error handling still needs to be completed, but in this draft app version you can already get the idea how to use a WebSocket back-end with this standard example app front-end.
