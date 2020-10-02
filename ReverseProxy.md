@@ -130,6 +130,17 @@ server {
   }
 }
 ```
+### Download & install Nginx for Windows
+
+- download the Nginx for Windows build
+- unpack to `C:\nginx`
+- edit de config file as above
+- start, stop Nginx and get status:
+  ```
+  C:\nginx> start nginx
+  C:\nginx> nginx -s stop
+  C:\nginx> tasklist /fi "imagename eq nginx.exe"
+  ```
 ## Example settings for a basic html single page app using qewd-client.js
 
 Applying this proxy setup to the basic example that comes with qewd-client:
