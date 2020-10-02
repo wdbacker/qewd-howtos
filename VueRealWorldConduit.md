@@ -18,7 +18,7 @@
   ```
 At this point, your development environment is completely ready for building Vue.js apps using the standard build tools.
 
-## Setup the example app with a REST back-end
+## <a name="setup"></a>Setup the example app with a REST back-end
 
 - open the [Thinkster RealWorld frontends page](https://github.com/gothinkster/realworld#frontends) and select the [Vue RealWorld example app](https://github.com/gothinkster/vue-realworld-example-app)
 - fork this repository in VSCode with Ctrl+Shift+P, Git Clone and enter the [url](https://github.com/gothinkster/vue-realworld-example-app) to a directory of your choice, e.g. `C:\GitHub`

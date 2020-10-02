@@ -1,6 +1,13 @@
 # Vue.js RealWorld example app (WebSocket version)
 
-This is the interactive app version of the [Vue RealWorld example app using a QEWD.js REST back-end](VueRealWorldConduit.md), the app is just a fork from the example at [RealWorld](https://github.com/gothinkster/realworld#frontends). A ready-to-run version of this WebSocket version is available from [this repository](https://github.com/wdbacker/vue-realworld-example-app). A summary of changes is described below.
+This is the interactive app version of the [Vue RealWorld example app using a QEWD-Up/QEWD.js REST back-end](VueRealWorldConduit.md), the app is just a fork from the example at [RealWorld](https://github.com/gothinkster/realworld#frontends). A ready-to-run version of this WebSocket version is available from [this repository](https://github.com/wdbacker/vue-realworld-example-app). A summary of changes is described below.
+
+## <a name="setup"></a>Setup this WebSocket app version on your local machine
+
+You can follow the [instructions in the REST version](VueRealWorldConduit.md#setup), except:
+- you'll need to open the [WebSockets repository of the app](https://github.com/wdbacker/vue-realworld-example-app)
+- fork this repository in VSCode with Ctrl+Shift+P, Git Clone and enter the [url](https://github.com/wdbacker/vue-realworld-example-app) to a directory of your choice, e.g. `C:\GitHub`
+- the remaining setup instructions are the same as for the REST version
 
 ## Adapting the app to use a QEWD-Up/QEWD.js WebSockets back-end
 
