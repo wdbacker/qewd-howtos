@@ -1,6 +1,6 @@
-# Vue RealWorld example app (WebSocket version)
+# Vue.js RealWorld example app (WebSocket version)
 
-This is the interactive app version of the [Vue RealWorld example app using a QEWD.js REST back-end](VueRealWorldConduit.md).
+This is the interactive app version of the [Vue RealWorld example app using a QEWD.js REST back-end](VueRealWorldConduit.md). A ready-to-run version of this WebSocket version is available from [this repository](https://github.com/wdbacker/vue-realworld-example-app). A summary of changes is described below.
 
 ## Adapting the app to use a QEWD-Up WebSockets back-end
 
@@ -10,14 +10,14 @@ The same app can also act as an interactive app version (using WebSockets to the
   ```
   C:\GitHub\vue-realworld-example-app>npm install wdbacker/qewd-client
   ```
-- in `src/common/config.js`, add a QEWD-URL WebSocket endpoint:
+- in `src/common/config.js`, add a `QEWD_URL` WebSocket endpoint:
   ```javascript
   //export const API_URL = "https://conduit.productionready.io/api";
   export const API_URL = "http://qewd-conduit.local:8080/api";
   export default API_URL;
   export const QEWD_URL = "http://qewd-conduit.local:8080";
   ```
-- in `src/main.js`, add qewd-client and the QEWDService wrapper object:
+- in `src/main.js`, add `qewd-client` and the `QEWDService` wrapper object:
   ```javascript
   ...
   // import QEWD from the qewd-client
@@ -30,7 +30,7 @@ The same app can also act as an interactive app version (using WebSockets to the
   Vue.config.productionTip = false;
   ...
   ```
-- in `src/App.vue`, we import our QEWDService for WebSockets (similar to the ApiService for REST), add reactive `data` options and a `created()` lifecycle hook to start the QEWD.js WebSocket connection:
+- in `src/App.vue`, we import the `QEWDService` object for WebSockets (similar to the `ApiService` for REST), add reactive `data` options and a `created()` lifecycle hook to start the QEWD.js/QEWD-Up WebSocket connection:
   ```html
   <template>
     <div id="app">
@@ -67,7 +67,7 @@ The same app can also act as an interactive app version (using WebSockets to the
   };
   </script>
   ```
-- in `src/common/api.service.js`, we add the QEWDService wrapper object to let the Vuex api communicate either using the REST api or using WebSocket api calls (we use deliberately a mix of both api's in this example to show the capabilities of the QEWD-Up back-end, which allows WebSocket and REST requests simultaneously):
+- in `src/common/api.service.js`, we add the `QEWDService` wrapper object to let the vuex api communicate either using the REST api or using WebSocket api calls (we use deliberately a mix of both api's in this example to show the capabilities of the QEWD-Up back-end, which allows WebSocket and REST requests simultaneously):
   ```javascript
   import Vue from "vue";
   import axios from "axios";
@@ -142,7 +142,7 @@ The same app can also act as an interactive app version (using WebSockets to the
   /*
     we changed some of the vuex services to use WebSockets calls
     and commented out the original REST calls
-    we let other services still REST calls to the same QEWD-Up back-end
+    other services still use REST calls to the same QEWD-Up back-end
     because we can use both REST and WebSocket endpoints simultaneously!
     at the back-end, we can even (re)use the same code for both
     REST & WebSocket handlers using a small wrapper function
