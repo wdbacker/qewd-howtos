@@ -67,14 +67,14 @@ At this point, your development environment is completely ready for building Vue
 
 ## Change the app to use a QEWD-Up/QEWD.js REST back-end
 
-- open the `src/common/config.js` file and change the `API_URL` (adjust API_URL to your local QEWD.js qewd-conduit server ip address):
+- open the `src/common/config.js` file and change the `API_URL` (adjust API_URL to your local QEWD-Up/QEWD.js qewd-conduit server ip address):
   ```javascript
   //export const API_URL = "https://conduit.productionready.io/api";
   export const API_URL = "http://192.168.x.x:8080/api";
   export default API_URL;
   ```
-- save & run your app again from the debug tab: it should run now on your own QEWD.js REST back-end!
+- save & run your app again from the debug tab: it should run now on your own QEWD-Up/QEWD.js REST back-end!
 
 ## Run this same app on a QEWD-Up/QEWD.js WebSockets back-end
 
-There is also an [interactive version of this app](VueRealWorldConduitWS.md) running on the same QEWD-Up back-end using WebSockets.
+There is also an [interactive version of this app](VueRealWorldConduitWS.md) running on the same QEWD-Up/QEWD.js back-end using WebSockets.

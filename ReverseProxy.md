@@ -1,27 +1,27 @@
-# Installing and running QEWD.js on a public website using a reverse proxy setup
+# Installing and running a QEWD-Up/QEWD.js server on a public website using a reverse proxy setup
 
-Putting your QEWD.js server behind a reverse proxy is recommended because your (public) Apache or Nginx server allows you to control and secure your server much better when you expose it on the internet.
+Putting your QEWD-Up/QEWD.js server behind a reverse proxy is recommended because your (public) Apache or Nginx server allows you to control and secure your server much better when you expose it on the internet.
 
 ## The setup
 
 In this example setup, we assume:
 - your (public) hostname is `my-qewd-server.com`
 - your QEWD-Up server is proxied on the `/qewd` path/location (assuming you are running multiple instances like e.g. an orchestrator instance)
-- your QEWD.js server url then becomes: `http://my-qewd-server.com/qewd`
-- your internal QEWD.js server ip (reachable from your public webserver) is running on host 192.168.100.27 and port 8090
+- your QEWD-Up/QEWD.js server url then becomes: `http://my-qewd-server.com/qewd`
+- your internal QEWD-Up/QEWD.js server ip (reachable from your public webserver) is running on host 192.168.100.27 and port 8080
 
-In this setting, your public webserver acts as a reverse proxy for your QEWD.js server.
+In this setting, your public webserver acts as a reverse proxy for your QEWD-Up/QEWD.js server.
 
-## Step 1: setup your QEWD.js server for use behind your reverse proxy server
+## Step 1: setup your QEWD-Up/QEWD.js server for use behind an Apache/Ngnix server acting as a reverse proxy
 
-For websocket requests on a proxied path/location to work correctly on your QEWD.js server back-end, you need to use the `webSockets.io_paths` option inside your `config.json` file in a QEWD-Up setup:
+For websocket requests on a proxied path/location to work correctly on your QEWD-Up/QEWD.js server back-end, you need to use the `webSockets.io_paths` option inside the `config.json` file in your QEWD-Up/QEWD.js server setup:
 
 ```javascript
 {
   "qewd": {
     "serverName": "My QEWD-Up server",
     "poolSize": 2,
-    "port": 8090,
+    "port": 8080,
     "database": {
       "type": "dbx",
       "params": {
@@ -34,9 +34,9 @@ For websocket requests on a proxied path/location to work correctly on your QEWD
   }
 }
 ```
-You can specify in this parameter your proxy path(s)/location(s) (there can be more than one in case you'd use different proxy servers with a different path/location to the same QEWD.js server).
+You can specify in this parameter your proxy path(s)/location(s) (there can be more than one in case you'd use different proxy servers with a different path/location pointing to the same QEWD-Up/QEWD.js server).
 
-In case you reverse proxy your QEWD.js server on the root domain level (e.g. at `http://my-qewd-server.com` without a `/qewd` path/location), the `webSockets.io_paths` parameter is not needed.
+In case you reverse proxy your QEWD-Up/QEWD.js server on the root domain level (e.g. at `http://my-qewd-server.com` without a `/qewd` path/location), the `webSockets.io_paths` parameter is not needed.
 
 ## Step 2: reverse proxy setup for Apache and Nginx
 
@@ -66,38 +66,38 @@ In your (virtual host) config, you need these settings:
   # when the socket.io client checks transport mode polling, pass it on over http protocol
   RewriteCond %{QUERY_STRING} transport=polling
   # in that case, rewrite the request url
-  RewriteRule /qewd/socket.io/(.*)$ http://192.168.100.27:8090/socket.io/$1 [P]
+  RewriteRule /qewd/socket.io/(.*)$ http://192.168.100.27:8080/socket.io/$1 [P]
   
   ProxyRequests off
   # when the client downloads the socket.io client, proxy it over http ...
-  ProxyPass /qewd/socket.io/socket.io.js http://192.168.100.27:8090/socket.io/socket.io.js
-  ProxyPassReverse /qewd/socket.io/socket.io.js http://192.168.100.27:8090/socket.io/socket.io.js
+  ProxyPass /qewd/socket.io/socket.io.js http://192.168.100.27:8080/socket.io/socket.io.js
+  ProxyPassReverse /qewd/socket.io/socket.io.js http://192.168.100.27:8080/socket.io/socket.io.js
   # when the client communicates with the websocket, proxy it over ws ...
-  ProxyPass /qewd/socket.io/ ws://192.168.100.27:8090/socket.io/
-  ProxyPassReverse /qewd/socket.io/ ws://192.168.100.27:8090/socket.io/
+  ProxyPass /qewd/socket.io/ ws://192.168.100.27:8080/socket.io/
+  ProxyPassReverse /qewd/socket.io/ ws://192.168.100.27:8080/socket.io/
   # proxy all other (page/asset) requests over http ...
-  ProxyPass /qewd http://192.168.100.27:8090
-  ProxyPassReverse /qewd http://192.168.100.27:8090
+  ProxyPass /qewd http://192.168.100.27:8080
+  ProxyPassReverse /qewd http://192.168.100.27:8080
 </VirtualHost>
 ```
-If your QEWD.js server is using https, you need to change all `http:` protocols to `https:` and `ws:` to `wss:`
+If your QEWD-Up/QEWD.js server is using https, you need to change all `http:` protocols to `https:` and `ws:` to `wss:`
 ```
   RewriteEngine on
   # when the socket tries transport mode polling, pass it on with http protocol
   RewriteCond %{QUERY_STRING} transport=polling
   # in that case, rewrite the request url
-  RewriteRule /qewd/socket.io/(.*)$ https://192.168.100.27:8090/socket.io/$1 [P]
+  RewriteRule /qewd/socket.io/(.*)$ https://192.168.100.27:8080/socket.io/$1 [P]
   
   ProxyRequests off
   # when the client downloads the socket.io client, proxy it over http ...
-  ProxyPass /qewd/socket.io/socket.io.js https://192.168.100.27:8090/socket.io/socket.io.js
-  ProxyPassReverse /qewd/socket.io/socket.io.js https://192.168.100.27:8090/socket.io/socket.io.js
+  ProxyPass /qewd/socket.io/socket.io.js https://192.168.100.27:8080/socket.io/socket.io.js
+  ProxyPassReverse /qewd/socket.io/socket.io.js https://192.168.100.27:8080/socket.io/socket.io.js
   # when the client communicates with the websocket, proxy it over ws ...
-  ProxyPass /qewd/socket.io/ wss://192.168.100.27:8090/socket.io/
-  ProxyPassReverse /qewd/socket.io/ wss://192.168.100.27:8090/socket.io/
+  ProxyPass /qewd/socket.io/ wss://192.168.100.27:8080/socket.io/
+  ProxyPassReverse /qewd/socket.io/ wss://192.168.100.27:8080/socket.io/
   # proxy all other (page/asset) requests over http ...
-  ProxyPass /qewd https://192.168.100.27:8090
-  ProxyPassReverse /qewd https://192.168.100.27:8090
+  ProxyPass /qewd https://192.168.100.27:8080
+  ProxyPassReverse /qewd https://192.168.100.27:8080
 ```
 # Nginx
 
@@ -112,9 +112,9 @@ server {
       index  index.html index.htm;
   }
 
-  # proxy all http (page/asset) requests over http to the internal QEWD.js server
+  # proxy all http (page/asset) requests over http to the internal QEWD-Up/QEWD.js server
   location /qewd/ {
-    proxy_pass "http://192.168.100.27:8090/";
+    proxy_pass "http://192.168.100.27:8080/";
   }
 
   # proxy the socket.io client script and WebSocket messages over http & ws
@@ -122,7 +122,7 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $host;
 
-    proxy_pass "http://192.168.100.27:8090/socket.io/";
+    proxy_pass "http://192.168.100.27:8080/socket.io/";
 
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
@@ -143,7 +143,7 @@ server {
   ```
 ## Example settings for a basic html single page app using qewd-client.js
 
-Applying this proxy setup to the basic example that comes with qewd-client:
+Applying this proxy setup to the basic example that comes with [qewd-client](https://github.com/robtweed/qewd-client):
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -196,13 +196,13 @@ Applying this proxy setup to the basic example that comes with qewd-client:
 ```
 ## Example settings for a Vue.js 3.x app using qewd-client.js
 
-Applying this proxy setup to a [Vue.js 3.x hello-world app](https://github.com/wdbacker/vue3-qewd-hello-world), change the `start()` method call inside the `App`'s component `created()` method:
+Applying this proxy setup to a [Vue.js 3.x hello-world](https://github.com/wdbacker/vue3-qewd-hello-world) app example, change the `start()` method call inside the `App`'s component `created()` method:
 ```javascript
 this.$qewd.start({
   application: 'hello-world',
   io,
-  //url: 'http://localhost:8090'
-  // pass in the url of the external QEWD.js server
+  //url: 'http://localhost:8080'
+  // pass in the url of the external QEWD-Up/QEWD.js server
   url: 'http://my-qewd-server.com/qewd',
   // pass the io_path to the WebSocket
   io_path: '/qewd',
@@ -210,3 +210,4 @@ this.$qewd.start({
   io_transports: [ 'polling', 'websocket' ]
 })
 ```
+An more extensive Vue 2.x example using vuex is available at the [Vue RealWorld Conduit app repository](https://github.com/wdbacker/vue-realworld-example-app).

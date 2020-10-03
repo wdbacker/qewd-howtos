@@ -4,18 +4,49 @@ This is the interactive app version of the [Vue RealWorld example app using a QE
 
 ## <a name="setup"></a>Setup this WebSocket app version on your local machine
 
-You can follow the [instructions in the REST version](VueRealWorldConduit.md#setup), except:
+You can follow the [instructions in the REST version](VueRealWorldConduit.md#setup), they are nearly identical except:
 - you'll need to open the [WebSockets repository of the app](https://github.com/wdbacker/vue-realworld-example-app)
-- fork this repository in VSCode with Ctrl+Shift+P, Git Clone and enter the [url](https://github.com/wdbacker/vue-realworld-example-app) to a directory of your choice, e.g. `C:\GitHub`
+- fork this repository in VSCode with Ctrl+Shift+P, Git Clone from it's [url](https://github.com/wdbacker/vue-realworld-example-app) to a directory of your choice, e.g. `C:\GitHub`
 - the remaining setup instructions are the same as for the REST version
+
+## Check your QEWD-Up/QEWD.js server port config
+
+*In the app's repository, you don't need to bother about these config settings, the instructions here are only included for completeness. Just make sure there is no other service listening already on tcp port 8080 on your machine.*
+
+For the app's development server to work correctly, ensure your `qewd-conduit` server back-end is not running on the same port than the Vue.js development server's port. By default, coincidentally both the QEWD-Up server and the Vue.js development server use the same port 8080. When you run your QEWD Conduit server and your Vue.js app on the same machine, you can have a tcp port collision on port 8080.
+
+To avoid a port collision, you can make sure you start your QEWD-Up/QEWD.js server first every time. Port 8080 will then be in use once the QEWD Conduit Server has started and when you then start the Vue.js development server, it will pick the next available port (e.g. 8081).
+
+However, it's better to avoid this situation in all cases regardless of the startup order. You have two options:
+- change the Vue.js development server port in your vue app's `vue.config.js` file:
+  ```javascript
+  module.exports = {
+    devServer: {
+      port: 8081
+    }
+  }
+  ```
+  In the example app repository, the Vue.js development server port is already configured on port 8081.
+
+- change the QEWD-Up/QEWD.js server port to e.g. 8090 in your `qewd-conduit/configuration/config.json` file:
+  ```
+  {
+    "qewd": {
+      "port": 8090,
+      "poolSize": 2,
+      "serverName": "QEWD Conduit Server",
+      ...
+    }
+  }
+  ```
 
 ## Adapting the app to use a QEWD-Up/QEWD.js WebSockets back-end
 
-The same app can also act as an interactive app version (using WebSockets to the QEWD.js back-end)
+The same app can also act as an interactive app version (using WebSockets to the QEWD-Up/QEWD.js back-end)
 
 - in the cmd window, install the `qewd-client` module:
   ```
-  C:\GitHub\vue-realworld-example-app>npm install wdbacker/qewd-client
+  C:\GitHub\vue-realworld-example-app>npm install qewd-client
   ```
 - in `src/common/config.js`, add a `QEWD_URL` WebSocket endpoint (adjust the url's to your local ip address or hostname):
   ```javascript
@@ -37,7 +68,7 @@ The same app can also act as an interactive app version (using WebSockets to the
   Vue.config.productionTip = false;
   ...
   ```
-- in `src/App.vue`, we import the `QEWDService` wrapper object for WebSockets (see below, similar to the `ApiService` for REST), add some reactive `data` options and a `created()` lifecycle hook to init the QEWD.js/QEWD-Up WebSocket connection:
+- in `src/App.vue`, we import the `QEWDService` wrapper object (see below, similar to the `ApiService` for REST), add some reactive `data` options and a `created()` lifecycle hook to init the QEWD-Up/QEWD.js WebSocket connection:
   ```html
   <template>
     <div id="app">
@@ -68,13 +99,13 @@ The same app can also act as an interactive app version (using WebSockets to the
       }
     },
     created () {
-      // init the WebSocket connection to the QEWD-Up back-end
+      // init the WebSocket connection to the QEWD-Up/QEWD.js back-end
       QEWDService.init(this)
     }
   };
   </script>
   ```
-- in `src/common/api.service.js`, we added a `QEWDService` wrapper object to let the vuex api communicate either via REST api or via WebSocket api calls (we use deliberately a mix of both api's in this example to show the capabilities of the QEWD-Up back-end, which allows WebSocket and REST requests simultaneously):
+- in `src/common/api.service.js`, we added a `QEWDService` wrapper object to let the vuex api communicate either via REST api and/or via WebSocket api calls (we use deliberately a mix of both api's in this example to show the capabilities of the QEWD-Up back-end, which allows WebSocket and REST requests simultaneously - in a normal app situation you'll use either REST or a WebSocket):
   ```javascript
   import Vue from "vue";
   import axios from "axios";
@@ -117,14 +148,14 @@ The same app can also act as an interactive app version (using WebSockets to the
         vcc.qewdNotReachable = true
       });
       /*
-        start QEWD.js with these required params:
+        start QEWD-Up/QEWD.js client with these required params:
         - application: QEWD's application name
         - io: the imported websocket client module
-        - url: the url of your QEWD.js server
+        - url: the url of your QEWD-Up/QEWD.js server
 
         *** important: by default, a Vue.js app will run it's development server on localhost:8080 
-        (this is the same port as QEWD.js's default port 8080)
-        you'll *need* to change the port to e.g. 8090 in QEWD.js's config
+        (this is the same port as QEWD's default port 8080)
+        you'll *need* to change the port to e.g. 8090 in QEWD's config
         to make it work with a Vue.js app!
       */
       vcc.$qewd.start({
