@@ -1,5 +1,7 @@
 # Angular RealWorld example app (REST version)
 
+This app is using the Angular framework, see also similar apps for the [Vue.js](VueRealWorldConduit.md) and [React](ReactRealWorldConduit.md) framework.
+
 ## Development environment setup on Windows
 
 - create your (free) [GitHub account](https://github.com)

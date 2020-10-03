@@ -1,5 +1,7 @@
 # React Redux RealWorld example app (REST version)
 
+This app is using the React framework, see also similar apps for the [Vue.js](VueRealWorldConduit.md) and [Angular](AngularRealWorldConduit.md) framework.
+
 ## Development environment setup on Windows
 
 - create your (free) [GitHub account](https://github.com)

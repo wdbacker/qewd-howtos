@@ -1,5 +1,7 @@
 # Vue RealWorld example app (REST version)
 
+This app is using the Vuejs 2.x framework, see also similar apps for the [React](ReactRealWorldConduit.md) and [Angular](AngularRealWorldConduit.md) framework.
+
 ## Development environment setup on Windows
 
 - create your (free) [GitHub account](https://github.com)
