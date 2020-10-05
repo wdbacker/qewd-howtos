@@ -20,3 +20,7 @@ This repository contains documents with general howtos on QEWD-Up/QEWD.js server
 ## Custom configurations for your QEWD-Up/QEWD.js server
 
 - [setting up your public QEWD-Up/QEWD.js server behind a reverse proxy](ReverseProxy.md)
+
+## Developing with QEWD-Up
+
+- [Debugging your QEWD-Up server in VSCode](Debugging.md)
