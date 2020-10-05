@@ -2,6 +2,10 @@
 
 This repository contains documents with general howtos on QEWD-Up/QEWD.js server setups.
 
+## QEWD-Up server setups
+
+- [QEWD-Up Conduit example server setup](https://github.com/robtweed/qewd-conduit) implementing the complete [RealWorld Conduit back-end specification](https://github.com/gothinkster/realworld#backends) - with both REST and WebSocket endpoints.
+
 ## Building applications with Vue.js front-end
 
 - [Vue 2.x hello world example](https://github.com/wdbacker/vue2-qewd-hello-world)
