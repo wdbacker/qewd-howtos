@@ -127,3 +127,33 @@ This debugging method is recommended for:
 
 To debug QEWD-Up server startup code however, this debug option is not suited (e.g. when debugging your addMiddleWare code).
 
+### Debug an existing QEWD.js server
+
+In case your server doesn't use the QEWD-Up structure already and you're using QEWD.js, you just need to change the `program` setting inside `launch.json` and point it to your own QEWD.js startup script (in most cases the modified `node_modules/qewd/example/qewd.js` startup file at the root folder of your QEWD.js server):
+
+```javascript
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch QEWD Up server in inspector mode",
+      "program": "${workspaceFolder}\\qewd.js",
+      "cwd": "${workspaceFolder}",
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "protocol": "inspector",
+      "port": 9229,
+      "request": "attach",
+      "name": "Attach to QEWD Up server"
+    }
+  ]
+}
+```
