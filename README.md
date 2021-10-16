@@ -24,7 +24,12 @@ This repository contains documents with general howtos on QEWD-Up/QEWD.js server
 ## Custom configurations for your QEWD-Up/QEWD.js server
 
 - [setting up your public QEWD-Up/QEWD.js server behind a reverse proxy](ReverseProxy.md)
+- starting all workers at QEWD-Up startup with the poolPrefork config option
 
 ## Developing with QEWD-Up
 
+- [Standalone interactive WebSocket-based CRUD example](https://github.com/robtweed/qewd-microservices-examples/blob/master/WINDOWS-IRIS-2.md)
+- [Standalone microservices example](https://github.com/robtweed/qewd-microservices-examples/blob/master/WINDOWS-IRIS-1.md)
 - [Debugging your QEWD-Up server in VSCode](Debugging.md)
+- Error handling in QEWD's master process and workers (TODO)
+- Utility methods for function calls and returning responses (TODO)
