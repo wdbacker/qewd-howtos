@@ -1,4 +1,4 @@
-# Debugging your QEWD-Up server in VSCode
+# Debugging your QEWD-Up server in Visual Studio Code (VSC)
 
 ## Debugging the QEWD-Up demo server repository
 
