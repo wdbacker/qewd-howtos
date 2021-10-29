@@ -105,7 +105,7 @@ Save a complete JSON object in IRIS using `setDocument()`.
 
 Retrieve (a part of) your global content in JSON using `getDocument()`
 
-As you see, you can interact directly in server-side JavaScript with your globals in your IRIS database at a very granular or higher level.
+As you see, you can interact directly in server-side JavaScript with your globals in your IRIS database at a very granular or higher level. If you want to delve deeper into all features of the QEWD-Up `documentStore`, follow the [documentation on QEWD-JSdb](https://github.com/robtweed/qewd-jsdb/blob/master/IRIS.md).
 
 When you want to work with ``classes`` and ``SQL`` in IRIS, you can leverage all ObjectScript features in your message handlers using `this.db.call()` to invoke your ObjectScript code:
 ```javascript
