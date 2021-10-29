@@ -101,13 +101,13 @@ Accessing data at a certain subscript is done with the ``.$('subscript')`` selec
 
 Setting/getting a value to/from a global node is done with the `.value` syntax.
 
-Saving a complete JSON object in IRIS is done using `setDocument()`.
+Save a complete JSON object in IRIS using `setDocument()`.
 
-Retrieving a complete (piece of) your global content is done using `getDocument()`
+Retrieve (a part of) your global content in JSON using `getDocument()`
 
-As you see, you can interact directly in JavaScript with globals in your IRIS database. 
+As you see, you can interact directly in server-side JavaScript with your globals in your IRIS database at a very granular or higher level.
 
-When you want to work with ``classes`` and ``SQL`` in IRIS, you can leverage all ObjectScript features in your message handlers using `this.db.call()` to call your ObjectScript code:
+When you want to work with ``classes`` and ``SQL`` in IRIS, you can leverage all ObjectScript features in your message handlers using `this.db.call()` to invoke your ObjectScript code:
 ```javascript
 // if you want to use IRIS Objects or SQL, just use an extrinsic function call:
 module.exports = function(messageObj, session, send, finished) {
@@ -137,9 +137,9 @@ module.exports = function(messageObj, session, send, finished) {
 ```
 Btw, the `this.db.call` helper method is defined in `qewd-apps/nuxtjs-test/onLoad.js` (this file is loaded once when a QEWD-Up process starts an application).
 
-The sessionCallData (params + json response of the call) is saved in the session by the ObjectScript code below.
+The ``sessionCallData`` (params + json response of the call) is saved in the session by IRIS using the ObjectScript code below.
 
-In IRIS, you can write a `jsQEWDDemo.mac` routine invoked in the JS handler:
+In IRIS, you can now write a `jsQEWDDemo.mac` routine you see in the JS handler:
 ```
 jsQEWDDemo
  ;
