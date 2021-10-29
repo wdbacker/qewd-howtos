@@ -77,7 +77,6 @@ A message handler's structure is:
 module.exports = function(messageObj, session, send, finished) {
   // this handler picks up incoming text for testing purposes
   let incomingText = messageObj.params.text || ""
-  let d = new Date()
   // create a DocumentNode reference to the ^QEWDTest global in IRIS
   let qewdDemo = new this.documentStore.DocumentNode('QEWDDemo');
   // assign the text content to the subscript 'demo' in this global
@@ -85,11 +84,12 @@ module.exports = function(messageObj, session, send, finished) {
   // put the complete message JSON object inside a second level subscript
   qewdDemo.$('demo').$('message').setDocument(messageObj);
   // read everything back in from IRIS into a JSON object
-  let response = qewdTest.$('demo').getDocument(true);
+  let qewdDemoGlobal = qewdDemo.$('demo').getDocument(true);
   // return the response to the client using WebSockets (or Ajax mode)
+  let d = new Date()
   finished({
     text: 'You sent: "' + incomingText + '" to QEWD-Up at ' + d.toUTCString(),
-    response
+    qewdDemoGlobal
   })
 }
 ```
@@ -110,7 +110,7 @@ As you see, you can interact directly in JavaScript with globals in your IRIS da
 When you want to work with classes and SQL in IRIS, you can use ObjectScript functions in your message handlers using `this.dbxFunction()`, e.g.:
 ```javascript
 // if you want to use IRIS Objects or SQL, just use an extrinsic function call:
-testIRIS: function(messageObj, session, send, finished) {
+module.exports = function(messageObj, session, send, finished) {
   let self = this
   // pass a parameter global to IRIS
   let params = {
@@ -211,19 +211,19 @@ A REST api handler's structure is:
 module.exports = function(args, finished) {
   // this handler picks up incoming text for testing purposes
   let incomingText = args.req.query.text || ""
-  let d = new Date()
   // create a DocumentNode reference to the ^QEWDTest global in IRIS
   let qewdDemo = new this.documentStore.DocumentNode('QEWDDemo');
   // assign the text content to the subscript 'demo' in this global
   qewdDemo.$('demo').value = incomingText
   // put the complete message JSON object inside a second level subscript
-  qewdDemo.$('demo').$('message').setDocument(messageObj);
+  qewdDemo.$('demo').$('request').setDocument(args.req);
   // read everything back in from IRIS into a JSON object
-  let response = qewdTest.$('demo').getDocument(true);
+  let qewdDemoGlobal = qewdDemo.$('demo').getDocument(true);
   // return the response to the client using WebSockets (or Ajax mode)
+  let d = new Date()
   finished({
     text: 'You sent: "' + incomingText + '" to QEWD-Up at ' + d.toUTCString(),
-    response
+    qewdDemoGlobal
   })
 }
 ```
