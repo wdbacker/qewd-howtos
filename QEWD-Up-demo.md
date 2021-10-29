@@ -107,7 +107,7 @@ Retrieving a complete (piece of) your global content is done using `getDocument(
 
 As you see, you can interact directly in JavaScript with globals in your IRIS database. 
 
-When you want to work with classes and SQL in IRIS, you can use ObjectScript functions in your message handlers using `this.dbxFunction()`, e.g.:
+When you want to work with ``classes`` and ``SQL`` in IRIS, you can leverage all ObjectScript features in your message handlers using `this.db.call()` to call your ObjectScript code:
 ```javascript
 // if you want to use IRIS Objects or SQL, just use an extrinsic function call:
 module.exports = function(messageObj, session, send, finished) {
@@ -119,7 +119,7 @@ module.exports = function(messageObj, session, send, finished) {
     cache: "cool"
   }
   // call your extrinsic function in IRIS
-  let response = this.dbxFunction('testIRIS^jsQEWDDemo', params, self, session);
+  let response = this.db.call('testIRIS^jsQEWDDemo', params, self, session);
   // check the response object coming back from IRIS
   if (response.ok) {
     console.log("IRIS response was: ", response);
@@ -128,14 +128,18 @@ module.exports = function(messageObj, session, send, finished) {
     console.log("An error occurred: ", response.error);
   }
   // return the response to the front-end using WebSockets
+  // we return some call data our ObjectScript code saved in the session 
   finished({
-    response
+    response,
+    sessionCallData: session.data.$('call').getDocument(true)
   });
 }    
 ```
-Btw, the `dbxFunction` helper method is defined in `qewd-apps/onLoad.js` (this file is loaded once when a QEWD-Up process starts).
+Btw, the `this.db.call` helper method is defined in `qewd-apps/nuxtjs-test/onLoad.js` (this file is loaded once when a QEWD-Up process starts an application).
 
-In IRIS, the `jsQEWDDemo.mac` routine invoked in the JS handler contains:
+The sessionCallData (params + json response of the call) is saved in the session by the ObjectScript code below.
+
+In IRIS, you can write a `jsQEWDDemo.mac` routine invoked in the JS handler:
 ```
 jsQEWDDemo
  ;
@@ -146,6 +150,9 @@ testIRIS(sessid)
  New (sessid)
  
  Set error=""
+ ;save the parameters of this call inside our session:
+ Kill $$$session(sessid,"call","params")
+ Merge $$$session(sessid,"call","params")=$$$jsData("params")
  ;first, let's try the Object way ...
  If $$$jsData("params","nodejs")="hot" {
    Set id = $Get($$$jsData("params","id")) If '$Length(id) Set error="person id missing in request" Quit
@@ -169,10 +176,13 @@ testIRIS(sessid)
      Set n = n + 1
    }
  }
+ ;save the json result of this call inside our session:
+ Kill $$$session(sessid,"call","json")
+ Merge $$$session(sessid,"call","json")=$$$jsData("json")
  Quit error
  ;
 ```
-As you notice, you can use all ObjectScript features in IRIS, receive & return complete JSON objects conveniently to & from IRIS using some macro's like ``$$$jsData()`` (you'll find the macro code inside the `iris` directory of the `qewd-up-demo` repo).
+As you notice, you can use all ObjectScript features in IRIS, receive & return complete JSON objects conveniently to & from IRIS using some macro's like ``$$$jsData(...)`` and `$$$session(sessid, ...)` (you'll find the macro code inside the `iris` directory of the `qewd-up-demo` repo).
 
 ### REST api's
 
