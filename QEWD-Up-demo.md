@@ -116,7 +116,7 @@ module.exports = function(messageObj, session, send, finished) {
   let params = {
     id: 1,
     nodejs: "hot",
-    cache: "cool"
+    IRIS: "cool"
   }
   // call your extrinsic function in IRIS
   let response = this.db.call('testIRIS^jsQEWDDemo', params, self, session);
